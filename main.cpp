@@ -26,7 +26,16 @@ int main()
     
     
     cout << "Map has " << map.size() << " elements." << endl;
-    map.erase("Sam");
+    
+    //map.erase("Sam");
+    //map.erase("Joe");
+    map.erase("Steve");
+    
+    if(map.empty())
+        cout << "Map is empty" << endl;
+    else
+        cout << "Map is filled" << endl;
+    
     map.dump();
     cout << "Map has " << map.size() << " elements." << endl;
     
@@ -36,4 +45,6 @@ int main()
         cout << "Map contains element." << endl;
     else
         cout << "Map does not contain element." << endl;
+    
+    
 }

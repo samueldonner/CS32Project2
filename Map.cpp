@@ -26,10 +26,16 @@ Map::Map()
 
 //}
 
-//Map& Map::operator=(const Map& otherSide)
-//{
-//
-//}
+Map& Map::operator=(const Map& otherSide)
+{
+    Node *p = head;
+    while( p!=nullptr )
+    {
+        erase(p->key);
+        p = p->next;
+    }
+    return (*this);
+}
 
 Map::~Map()
 {
@@ -119,20 +125,31 @@ bool Map::erase(const KeyType& key)
     Node *p = head;
     while( p!=nullptr )
     {
-        if(p->next->key == key)
+        if(p->key == key)
         {
-            break;
+            Node *killer = p;
+            Node *temp = killer->next;
+            if( p->previous == nullptr )
+            {
+                if(temp!=nullptr)
+                {
+                    temp->previous = nullptr;
+                } // if only node in a list
+                head = temp;
+                delete killer;
+                return true;
+            } // if first node in a list
+            
+            p = killer->previous;
+            p->next = temp;
+            if(temp!=nullptr)
+            {
+                temp->previous = p;
+            }
+            delete killer;
+            return true;
         }
         p = p->next;
-    }
-    if(p!=nullptr)
-    {
-        Node *killer = p->next;
-        Node *temp = killer->next;
-        p->next = killer->next;
-        temp->previous = p;
-        delete killer;
-        return true;
     }
     
     return false;
@@ -163,15 +180,37 @@ void Map::dump()
     }
 }
 
-//bool Map::get(const KeyType& key, ValueType& value) const
-//{
-    
-//}
+bool Map::get(const KeyType& key, ValueType& value) const
+{
+    Node *p = head;
+    while( p!=nullptr )
+    {
+        if( p->key == key )
+        {
+            value = p->value;
+            return true;
+        }
+        p = p->next;
+    }
+    return false;
+}
 
-//bool Map::get(int i, KeyType& key, ValueType& value) const
-//{
-    
-//}
+bool Map::get(int i, KeyType& key, ValueType& value) const
+{
+    Node *p = head;
+    int getIndex = 0;
+    while( p!=nullptr )
+    {
+        if( size() == getIndex-1 )
+        {
+            p->key = key;
+            p->value = value;
+        }
+        p = p->next;
+        getIndex++;
+    }
+    return false;
+}
 
 //void Map::swap(Map& other)
 //{
