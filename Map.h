@@ -8,7 +8,6 @@
 
 #ifndef Map_h
 #define Map_h
-#include <string>
 
 typedef std::string KeyType;
 typedef double ValueType;
@@ -19,7 +18,7 @@ class Map
 {
 public:
     
-    void dump();
+    void dump() const;
     
     Map();         // Create an empty map (i.e., one with no key/value pairs)
     

@@ -4,6 +4,21 @@
 
 using namespace std;
 
+void Map::dump() const
+{
+    Node *p = head;
+    while(p != nullptr)
+    {
+        cerr << "Name: " << p->key << "|   Value: " << p->value << endl;
+        p = p->next;
+    }
+} //print Map
+
+
+
+
+
+
 bool combine(const Map& m1, const Map& m2, Map& result)
 {
     KeyType keyM1;
@@ -12,6 +27,18 @@ bool combine(const Map& m1, const Map& m2, Map& result)
     ValueType valueM2;
     bool passOrFail = true;
     Map resultTemp; // create temp result variable
+    
+    if( m2.size() == 0 )
+    {
+        result = m1;
+        return true;
+    }
+    else if( m1.size() == 0 )
+    {
+        result = m2;
+        return true;
+    }
+    
     for(int i = 0; i < m1.size(); i++)
     {
         for( int j = 0; j < m2.size(); j++ )
@@ -51,7 +78,7 @@ void subtract(const Map& m1, const Map& m2, Map& result)
     KeyType keyM2;
     ValueType valueM2;
     Map resultTemp;
-    for( int j = 0; j < m2.size(); j++ )
+    for( int j = 0; j < m1.size(); j++ )
     {
         m1.get(j, keyM1, valueM1);
         resultTemp.insert(keyM1, valueM1);
@@ -82,6 +109,7 @@ Map::Map()
 
 Map::Map(const Map& other)
 {
+    head = nullptr;
     Node *pOther = other.head;
     while( pOther!=nullptr )
     {
@@ -254,16 +282,6 @@ bool Map::contains(const KeyType& key) const
     }
     return false;
 }
-
-void Map::dump()
-{
-    Node *p = head;
-    while(p != nullptr)
-    {
-        cout << "Name: " << p->key << "|   Value: " << p->value << endl;
-        p = p->next;
-    }
-} //print Map
 
 bool Map::get(const KeyType& key, ValueType& value) const
 {
