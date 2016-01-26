@@ -25,7 +25,7 @@ public:
     
     ~Map();
     
-    //Map(const Map& other);
+    Map(const Map& other);
     
     Map& operator=(const Map& rhs);
     
@@ -77,7 +77,7 @@ public:
     // true.  Otherwise, leave the key and value parameters unchanged and
     // return false.  (See below for details about this function.)
     
-    //void swap(Map& other);
+    void swap(Map& other);
     // Exchange the contents of this map with the other one.
     
 private:
@@ -93,8 +93,8 @@ private:
     
 };
 
-//bool combine(const Map& m1, const Map& m2, Map& result);
-//void subtract(const Map& m1, const Map& m2, Map& result);
+bool combine(const Map& m1, const Map& m2, Map& result);
+void subtract(const Map& m1, const Map& m2, Map& result);
 
 
 

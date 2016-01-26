@@ -4,15 +4,48 @@
 
 using namespace std;
 
-//bool combine(const Map& m1, const Map& m2, Map& result)
-//{
+bool combine(const Map& m1, const Map& m2, Map& result)
+{
+    KeyType keyM1;
+    ValueType valueM1;
+    KeyType keyM2;
+    ValueType valueM2;
+    bool passOrFail = true;
+    Map resultTemp;
+    for(int i = 0; i < m1.size(); i++)
+    {
+        for( int j = 0; j < m2.size(); j++ )
+        {
+            m1.get(i, keyM1, valueM1);
+            m2.get(j, keyM2, valueM2);
+            resultTemp.insert(keyM1, valueM1);
+            resultTemp.insert(keyM2, valueM2);
+        }
+    }
     
-//}
+    for(int i = 0; i < m1.size(); i++)
+    {
+        for( int j = 0; j < m2.size(); j++ )
+        {
+            m1.get(i, keyM1, valueM1);
+            m2.get(j, keyM2, valueM2);
+            if (keyM1==keyM2 && valueM1!=valueM2)
+            {
+                resultTemp.erase(keyM1);
+                passOrFail = false;
+            }
+        }
+    }
+    
+    result = resultTemp;
+    
+    return passOrFail;
+}
 
-//void subtract(const Map& m1, const Map& m2, Map& result)
-//{
+void subtract(const Map& m1, const Map& m2, Map& result)
+{
     
-//}
+}
 
 
 Map::Map()
@@ -21,18 +54,29 @@ Map::Map()
 }
 
 
-//Map::Map(const Map& other)
-//{
-
-//}
+Map::Map(const Map& other)
+{
+    Node *pOther = other.head;
+    while( pOther!=nullptr)
+    {
+        insert(pOther->key, pOther->value);
+        pOther = pOther->next;
+    }
+}
 
 Map& Map::operator=(const Map& otherSide)
 {
     Node *p = head;
+    Node *pOtherSide = otherSide.head;
     while( p!=nullptr )
     {
         erase(p->key);
         p = p->next;
+    }
+    while( pOtherSide!=nullptr)
+    {
+        insert(pOtherSide->key, pOtherSide->value);
+        pOtherSide = pOtherSide->next;
     }
     return (*this);
 }
@@ -201,10 +245,11 @@ bool Map::get(int i, KeyType& key, ValueType& value) const
     int getIndex = 0;
     while( p!=nullptr )
     {
-        if( size() == getIndex-1 )
+        if( getIndex == i )
         {
-            p->key = key;
-            p->value = value;
+            key = p->key;
+            value =p->value;
+            return true;
         }
         p = p->next;
         getIndex++;
@@ -212,11 +257,11 @@ bool Map::get(int i, KeyType& key, ValueType& value) const
     return false;
 }
 
-//void Map::swap(Map& other)
-//{
-//    Map tempMap;
-//    tempMap = other;
-//    other = *this;
-//    *this = tempMap;
-//}
+void Map::swap(Map& other)
+{
+    Map tempMap;
+    tempMap = other;
+    other = *this;
+    *this = tempMap;
+}
 
